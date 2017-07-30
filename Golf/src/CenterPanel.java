@@ -24,10 +24,10 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 	private JButton clearB = new JButton("ÃÊ±âÈ­");
 	private JButton broadB = new JButton("*");
 	int number;
-	// private Thread t_thread = null;
 	int hour = 0, min = 0, sec = 0, total_min = 0, check = 0;
 	int old_time, now_time, total;
 
+	//indivisual_panel
 	public CenterPanel(int num) {
 		Font font = new Font("Serif", Font.BOLD, 40);
 
@@ -88,6 +88,7 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 
 	}
 
+	//timer_thread
 	class Timer_thread implements Runnable {
 
 		public void run() {
@@ -102,14 +103,11 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 
 				total_min = total / 60; 
 				
-				// while (this == Thread.currentThread()) {
 				if (NorthPanel.use_time != 0 && total_min >= NorthPanel.use_time && check == 0) {
 					try {
 						Broad b = new Broad(number);
 						timerPanel.setBackground(Color.RED);
-
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					check++;
@@ -122,7 +120,6 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// }
 			}
 		}
 	}

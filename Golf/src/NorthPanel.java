@@ -43,8 +43,6 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 				}
 			}
 		});
-		
-		
 		add(timeLabel);
 		add(rb_100);
 		add(rb_120);
@@ -62,6 +60,7 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 			timeLabel.setText(str + day[date.get(Calendar.DAY_OF_WEEK)]);
 			timeLabel.setFont(font);
 
+			//duration_check_depending_date_and_time
 			if (ask_box.isIt == 1) {
 				rb_100.setBackground(Color.blue);
 				use_time = 100;
@@ -78,8 +77,7 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 						use_time = 120;
 					}
 				}
-			}
-			
+			}			
 			if(date.get(Calendar.MINUTE) == 46 && date.get(Calendar.SECOND) == 0 || date.get(Calendar.MINUTE) == 01 && date.get(Calendar.SECOND) == 0)
 				try {
 					info = new Info();
@@ -88,7 +86,7 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 					e1.printStackTrace();
 				}
 			
-			
+			//end_music_play
 			if(ask_box.isIt == 1 || date.get(Calendar.DAY_OF_WEEK) == 1 || date.get(Calendar.DAY_OF_WEEK) == 7 )
 			{
 				//10시 종료
@@ -104,6 +102,7 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 				}
 				
 			}
+			//8시 종료
 			else
 			{
 				if(date.get(Calendar.AM_PM) == 1 && date.get(Calendar.HOUR_OF_DAY) == 8 && end_time_check == 0)
