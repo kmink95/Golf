@@ -10,7 +10,7 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class Broad {
 	public Broad(int num) throws Exception {
-		String SoundPath = "/C:/Users/»ð±³°ñÇÁÅ¬·´/workspace/Golf/src/";
+		String SoundPath = "/C:/Users/»ð±³°ñÇÁÅ¬·´/git/workspace/Golf/Golf/src/";
 		
 
 		switch (num) {
