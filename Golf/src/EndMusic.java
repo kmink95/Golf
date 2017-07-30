@@ -8,7 +8,7 @@ import javax.sound.sampled.Line;
 
 public class EndMusic {
 	public EndMusic() throws Exception {
-		String SoundPath = "/C:/Users/»ğ±³°ñÇÁÅ¬·´/git/workspace/Golf/Golf/src/end.wav";
+		String SoundPath = "/C:/Users/»ğ±³°ñÇÁÅ¬·´/git/Golf/Golf/src/end.wav";
 		
 
 		Clip clip;

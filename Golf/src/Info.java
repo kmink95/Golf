@@ -11,7 +11,7 @@ public class Info {
 
 		Calendar date = Calendar.getInstance();
 
-		String SoundPath = "/C:/Users/»ğ±³°ñÇÁÅ¬·´/git/workspace/Golf/Golf/src/info.wav";
+		String SoundPath = "/C:/Users/»ğ±³°ñÇÁÅ¬·´/git/Golf/Golf/src/info.wav";
 		
 		Clip clip;
 		File soundFile = new File(SoundPath);
