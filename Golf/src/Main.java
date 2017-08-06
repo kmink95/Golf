@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+
 		new ask_box();
 		new main_Frame();
 
@@ -22,7 +23,7 @@ class ask_box {
 	static int isIt;
 
 	public ask_box() {
-		if (JOptionPane.showConfirmDialog(null, "¿À´ÃÀÌ °øÈŞÀÏ ÀÔ´Ï±î?", "", JOptionPane.YES_NO_OPTION) == 0)
+		if (JOptionPane.showConfirmDialog(null, "ì˜¤ëŠ˜ì´ ê³µíœ´ì¼ ì…ë‹ˆê¹Œ?", "", JOptionPane.YES_NO_OPTION) == 0)
 			isIt = 1;
 		else
 			isIt = 0;
@@ -30,7 +31,7 @@ class ask_box {
 }
 
 class main_Frame {
-	private JFrame f = new JFrame("»ğ±³°ñÇÁÅ¬·´");
+	private JFrame f = new JFrame("ì‚½êµê³¨í”„í´ëŸ½");
 	private JPanel nPanel = new NorthPanel();
 	private JPanel cPanel = new JPanel();
 	private JPanel cPanel_1 = new CenterPanel(1);
