@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,14 +21,19 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 	Runnable t_thread = null;
 	Thread t = null;
 
-	private JButton startB = new JButton("½ÃÀÛ");
-	private JButton clearB = new JButton("ÃÊ±âÈ­");
+	private JButton startB = new JButton("ì‹œìž‘");
+	private JButton stopB = new JButton("ì •ì§€");
+	private JButton clearB = new JButton("ì´ˆê¸°í™”");
 	private JButton broadB = new JButton("*");
 	int number;
+	// private Thread t_thread = null;
 	int hour = 0, min = 0, sec = 0, total_min = 0, check = 0;
 	int old_time, now_time, total;
+	int stop_start, stop_end, isItstop = 0;
+	int isItstart = 0;
+	int can_use_time = 0;
+	private boolean stop = false;
 
-	//indivisual_panel
 	public CenterPanel(int num) {
 		Font font = new Font("Serif", Font.BOLD, 40);
 
@@ -39,11 +45,47 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				// t_thread = new Thread();
+				stop = false;
+				startB.setEnabled(false);
+				if(isItstart == 0 )//&& stop == false)
+				{
 				old_time = (int) System.currentTimeMillis() / 1000;
+				System.out.println(old_time);
 				t = new Thread(t_thread);
 				t.start();
 				timerPanel.setBackground(Color.green);
+				isItstart++;
+				}
+				
+				//can use time depends on start time 
+				Calendar now_date = Calendar.getInstance();
+				//hoilday
+				if (ask_box.isIt == 1) {
+					can_use_time = 100;
+				} else {
+					//weekend
+					if (now_date.get(Calendar.DAY_OF_WEEK) == 1 || now_date.get(Calendar.DAY_OF_WEEK) == 7) {
+						can_use_time = 100;
+					} else {
+						//after 5pm
+						if (now_date.get(Calendar.HOUR_OF_DAY) >= 17) {
+							can_use_time = 100;
+						} else {
+							//rb_120.setBackground(null);
+							can_use_time = 120;
+						}
+					}
+				}
+
+				
+
+			}
+		});
+		stopB.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
 
 			}
 		});
@@ -52,11 +94,13 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				timer.setText("00:00:00");
 				timerPanel.setBackground(null);
 				check = 0;
-				t.stop();
 				t = null;
+				isItstart = 0;
+				stop = true;
+				startB.setEnabled(true);
+				timer.setText("00:00:00");
 
 			}
 		});
@@ -88,26 +132,30 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 
 	}
 
-	//timer_thread
 	class Timer_thread implements Runnable {
 
 		public void run() {
-			while (true) {
 
+			System.out.println(stop);
+			while (!stop) {
 				now_time = (int) System.currentTimeMillis() / 1000;
 				total = now_time - old_time;
 
 				sec = total % 60;
 				min = total / 60 % 60;
 				hour = total / 3600;
-
 				total_min = total / 60; 
 				
-				if (NorthPanel.use_time != 0 && total_min >= NorthPanel.use_time && check == 0) {
+				// when time run out, auto broad 
+				if (can_use_time != 0 && total_min >= can_use_time) {
 					try {
-						Broad b = new Broad(number);
 						timerPanel.setBackground(Color.RED);
+						if(check == 0)
+						{
+							Broad b = new Broad(number);
+						}
 					} catch (Exception e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					check++;
@@ -120,6 +168,7 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				// }
 			}
 		}
 	}
