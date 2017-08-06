@@ -17,12 +17,13 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 	int end_time_check = 0;
 	Font font = new Font("Serif", Font.PLAIN, 30);
 	private Thread t_thread;
-	String day[] = new String[] { "", " ÀÏ¿äÀÏ", " ¿ù¿äÀÏ", " È­¿äÀÏ", " ¼ö¿äÀÏ", " ¸ñ¿äÀÏ", " ±Ý¿äÀÏ", " Åä¿äÀÏ" };
+	String day[] = new String[] { "", " ì¼ìš”ì¼", " ì›”ìš”ì¼", " í™”ìš”ì¼", " ìˆ˜ìš”ì¼", " ëª©ìš”ì¼", " ê¸ˆìš”ì¼", " í† ìš”ì¼" };
 	Info info;
 	private JLabel timeLabel = new JLabel();
 
-	private JButton rb_100 = new JButton("100ºÐ");
-	private JButton rb_120 = new JButton("120ºÐ");
+
+	private JButton rb_100 = new JButton("100ë¶„");
+	private JButton rb_120 = new JButton("120ë¶„");
 	private JButton broad = new JButton("*");
 	
 	public NorthPanel() {
@@ -43,6 +44,8 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 				}
 			}
 		});
+		
+		
 		add(timeLabel);
 		add(rb_100);
 		add(rb_120);
@@ -54,31 +57,39 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 		while (true) {
 			Calendar date = Calendar.getInstance();
 			long time = System.currentTimeMillis();
-			SimpleDateFormat dayTime = new SimpleDateFormat("yyyy³â MM¿ù ddÀÏ hh½Ã mmºÐ ssÃÊ");
+			SimpleDateFormat dayTime = new SimpleDateFormat("yyyyë…„ MMì›” ddì¼ hhì‹œ mmë¶„ ssì´ˆ");
 			String str = dayTime.format(new Date(time));
 
 			timeLabel.setText(str + day[date.get(Calendar.DAY_OF_WEEK)]);
 			timeLabel.setFont(font);
-
-			//duration_check_depending_date_and_time
+			
+			//holyday
 			if (ask_box.isIt == 1) {
 				rb_100.setBackground(Color.blue);
+				rb_120.setBackground(null);
 				use_time = 100;
 			} else {
+				//weekend
 				if (date.get(Calendar.DAY_OF_WEEK) == 1 || date.get(Calendar.DAY_OF_WEEK) == 7) {
 					rb_100.setBackground(Color.blue);
+					rb_120.setBackground(null);
 					use_time = 100;
 				} else {
-					if (date.get(Calendar.AM_PM) == 1 && date.get(Calendar.HOUR_OF_DAY) >= 5) {
+					//after 5pm
+					if (date.get(Calendar.HOUR_OF_DAY) >= 17) {
 						rb_100.setBackground(Color.blue);
+						rb_120.setBackground(null);
 						use_time = 100;
 					} else {
+						//rb_120.setBackground(null);
 						rb_120.setBackground(Color.blue);
+						rb_100.setBackground(null);
 						use_time = 120;
 					}
 				}
-			}			
-			if(date.get(Calendar.MINUTE) == 46 && date.get(Calendar.SECOND) == 0 || date.get(Calendar.MINUTE) == 01 && date.get(Calendar.SECOND) == 0)
+			}
+			
+			if(date.get(Calendar.MINUTE) == 30 && date.get(Calendar.SECOND) == 1 )
 				try {
 					info = new Info();
 				} catch (Exception e1) {
@@ -86,11 +97,11 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 					e1.printStackTrace();
 				}
 			
-			//end_music_play
+			/*
 			if(ask_box.isIt == 1 || date.get(Calendar.DAY_OF_WEEK) == 1 || date.get(Calendar.DAY_OF_WEEK) == 7 )
 			{
-				//10½Ã Á¾·á
-				if(date.get(Calendar.AM_PM) == 1 && date.get(Calendar.HOUR_OF_DAY) == 10 && end_time_check == 0)
+				//10ì‹œ ì¢…ë£Œ
+				if(date.get(Calendar.HOUR_OF_DAY) == 21 && date.get(Calendar.MINUTE) == 50 && end_time_check == 0)
 				{
 					try {
 						EndMusic bye = new EndMusic();
@@ -102,10 +113,9 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 				}
 				
 			}
-			//8½Ã Á¾·á
 			else
 			{
-				if(date.get(Calendar.AM_PM) == 1 && date.get(Calendar.HOUR_OF_DAY) == 8 && end_time_check == 0)
+				if(date.get(Calendar.HOUR_OF_DAY) == 19 && date.get(Calendar.MINUTE)  == 50 && end_time_check == 0)
 				{
 					try {
 						EndMusic bye = new EndMusic();
@@ -122,6 +132,7 @@ class NorthPanel extends JPanel implements ActionListener, Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		*/
 		}
 	}
 }
