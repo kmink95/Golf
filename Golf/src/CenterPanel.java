@@ -16,6 +16,7 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 	private JLabel numLabel = new JLabel();
 	private JPanel buttonPanel = new JPanel();
 	private JPanel timerPanel = new JPanel();
+	private JPanel timeSettingPanel = new JPanel();
 	private JLabel timer = new JLabel("00:00:00");
 
 	Runnable t_thread = null;
@@ -25,9 +26,15 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 	private JButton stopB = new JButton("정지");
 	private JButton clearB = new JButton("초기화");
 	private JButton broadB = new JButton("*");
+	private JButton addtime = new JButton("+");
+	private JButton addhour = new JButton("시+");
+	private JButton addTmin = new JButton("십분+");
+	private JButton addmin = new JButton("분+");
+	private JButton addtimeok = new JButton("ok");
 	int number;
 	// private Thread t_thread = null;
 	int hour = 0, min = 0, sec = 0, total_min = 0, check = 0;
+	int sethour = 0, setTmin = 0, setmin = 0 , isItsettime = 0;
 	int old_time, now_time, total;
 	int stop_start, stop_end, isItstop = 0;
 	int isItstart = 0;
@@ -35,7 +42,7 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 	private boolean stop = false;
 
 	public CenterPanel(int num) {
-		Font font = new Font("Serif", Font.BOLD, 40);
+		Font font = new Font("Serif", Font.BOLD, 10);
 
 		number = num;
 		t_thread = new Timer_thread();
@@ -47,10 +54,11 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 				// TODO Auto-generated method stub
 				stop = false;
 				startB.setEnabled(false);
+				addtime.setEnabled(false);
 				if(isItstart == 0 )//&& stop == false)
 				{
 				old_time = (int) System.currentTimeMillis() / 1000;
-				System.out.println(old_time);
+				//System.out.println(old_time);
 				t = new Thread(t_thread);
 				t.start();
 				timerPanel.setBackground(Color.green);
@@ -100,8 +108,8 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 				isItstart = 0;
 				stop = true;
 				startB.setEnabled(true);
+				addtime.setEnabled(true);
 				timer.setText("00:00:00");
-
 			}
 		});
 		broadB.addActionListener(new ActionListener() {
@@ -117,6 +125,88 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 				}
 			}
 		});
+		
+		addtime.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					add(timeSettingPanel, BorderLayout.SOUTH);	
+					sethour = 0;
+					setTmin = 0;
+					setmin = 0;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		addhour.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					if(sethour<2)
+						sethour++;
+					else
+						sethour = 0;
+					timer.setText("0"+sethour+":"+ setTmin + setmin +":00");
+					isItsettime++;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		addTmin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					if(setTmin<9)
+						setTmin++;
+					else
+						setTmin = 0;
+					timer.setText("0"+sethour+":"+ setTmin + setmin +":00");
+					isItsettime++;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		addmin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					if(setmin<9)
+						setmin++;
+					else
+						setmin = 0;
+					timer.setText("0"+sethour+":"+ setTmin + setmin +":00");
+					isItsettime++;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		addtimeok.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				try {
+					remove(timeSettingPanel);
+					repaint();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 
 		numLabel.setText("<" + num + ">");
 
@@ -124,6 +214,11 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 		buttonPanel.add(startB);
 		buttonPanel.add(clearB);
 		buttonPanel.add(broadB);
+		buttonPanel.add(addtime);
+		timeSettingPanel.add(addhour);
+		timeSettingPanel.add(addTmin);
+		timeSettingPanel.add(addmin);
+		timeSettingPanel.add(addtimeok);
 		numLabel.setFont(font);
 
 		add(numLabel, BorderLayout.NORTH);
@@ -135,16 +230,20 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 	class Timer_thread implements Runnable {
 
 		public void run() {
-
-			System.out.println(stop);
+			//System.out.println(stop);
 			while (!stop) {
 				now_time = (int) System.currentTimeMillis() / 1000;
 				total = now_time - old_time;
-
+				
+				if(isItsettime != 0)
+					total += (setTmin * 10 + setmin)*60 + sethour * 3600;
+				
 				sec = total % 60;
 				min = total / 60 % 60;
 				hour = total / 3600;
 				total_min = total / 60; 
+						
+				
 				
 				// when time run out, auto broad 
 				if (can_use_time != 0 && total_min >= can_use_time) {
