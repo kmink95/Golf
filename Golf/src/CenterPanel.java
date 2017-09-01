@@ -50,7 +50,7 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 
 	private JButton clearB = new JButton("초기화");
 
-	private JButton broadB = new JButton("*");
+	private JButton broadB = new JButton("♬");
 
 	private JButton addtime = new JButton("+");
 
@@ -205,6 +205,11 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 				// TODO Auto-generated method stub
 
 				timerPanel.setBackground(null);
+				total_min = 0;
+				sethour = 0;
+				setTmin = 0;
+				setmin = 0;
+				isItsettime = 0;
 
 				check = 0;
 
