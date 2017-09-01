@@ -103,6 +103,59 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 			public void actionPerformed(ActionEvent arg0) {
 
 				// TODO Auto-generated method stub
+				
+				//can use time depends on start time 
+
+				Calendar now_date = Calendar.getInstance();
+
+				//hoilday
+
+				if (ask_box.isIt == 1) {
+
+					can_use_time = 100;
+
+				} else {
+
+					//weekend
+
+					if (now_date.get(Calendar.DAY_OF_WEEK) == 1 || now_date.get(Calendar.DAY_OF_WEEK) == 7) {
+
+						can_use_time = 100;
+
+					} else {
+						
+						if(isItsettime == 0)
+						{
+						//after 5pm
+
+						if (now_date.get(Calendar.HOUR_OF_DAY) >= 17) {
+
+							can_use_time = 100;
+
+						} else {
+
+							//rb_120.setBackground(null);
+
+							can_use_time = 120;
+
+						}
+						}
+						else
+						{
+							//after 5pm
+							int temp = ((now_date.get(Calendar.HOUR_OF_DAY)*60) + now_date.get(Calendar.MINUTE)) - ((sethour*60)+(setTmin*10)+setmin);
+							
+							if (temp / 60 >= 17) {
+								System.out.println("" + temp / 60);
+								can_use_time = 100;
+							} else {
+								can_use_time = 120;
+							}
+						}
+
+					}
+
+				}
 
 				stop = false;
 
@@ -130,43 +183,7 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 
 				
 
-				//can use time depends on start time 
-
-				Calendar now_date = Calendar.getInstance();
-
-				//hoilday
-
-				if (ask_box.isIt == 1) {
-
-					can_use_time = 100;
-
-				} else {
-
-					//weekend
-
-					if (now_date.get(Calendar.DAY_OF_WEEK) == 1 || now_date.get(Calendar.DAY_OF_WEEK) == 7) {
-
-						can_use_time = 100;
-
-					} else {
-
-						//after 5pm
-
-						if (now_date.get(Calendar.HOUR_OF_DAY) >= 17) {
-
-							can_use_time = 100;
-
-						} else {
-
-							//rb_120.setBackground(null);
-
-							can_use_time = 120;
-
-						}
-
-					}
-
-				}
+	
 
 
 
@@ -334,7 +351,7 @@ class CenterPanel extends JPanel implements ActionListener, Runnable {
 
 				try {
 
-					if(setTmin<9)
+					if(setTmin<5)
 
 						setTmin++;
 
